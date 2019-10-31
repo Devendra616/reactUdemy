@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{ Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      avengers: [ ]
+    }
+  }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(users => this.setState({avengers : users})); //set avengers array with new users fetched from url
+  }
+
+  render() {
+    return (
+      <div className="App">
+      { this.state.avengers.map(avenger => (
+        <h1 key={avenger.id}> {avenger.name}</h1>
+      ))}
+      </div>
+    );
+  }
 }
 
 export default App;
